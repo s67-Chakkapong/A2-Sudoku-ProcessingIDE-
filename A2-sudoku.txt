@@ -1,0 +1,33 @@
+void setup(){
+  size(400,400);
+  
+}
+
+
+void draw(){
+  background(255);
+  drawMenu();
+  
+}
+
+
+void drawMenu(){
+  
+  fill(100, 200, 100);
+  rect(150, 100, 100, 50);
+  fill(0);
+  textAlign(CENTER, CENTER);
+  text("Play", 200, 125);
+
+  fill(100, 100, 200);
+  rect(150, 170, 100, 50);
+  fill(0);
+  text("Load", 200, 195);
+
+  fill(200, 100, 100);
+  rect(150, 240, 100, 50);
+  fill(0);
+  text("Exit", 200, 265);
+  
+  
+}
