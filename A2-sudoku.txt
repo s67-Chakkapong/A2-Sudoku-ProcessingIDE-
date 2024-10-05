@@ -1,9 +1,12 @@
 String screen = "menu";
-
+int selectedRow = -1;
+int selectedCol = -1;
+int[][] grid = new int[9][9];
 
 void setup(){
   size(400,400);
-  
+  textAlign(CENTER,CENTER);
+  textSize(20);
 }
 
 
@@ -57,6 +60,19 @@ void drawGrid(){
       strokeWeight(1);
       fill(255);
       rect(offset+i*gridSize,offset+j*gridSize,gridSize,gridSize);
+      
+      
+      if (grid[i][j] != 0 ){
+        fill(0);
+        text(grid[i][j],offset + i * gridSize + gridSize /2 , offset + j * gridSize + gridSize/2);
+        
+      }
+      if (i == selectedRow && j == selectedCol) {
+        stroke(255, 0, 0);
+        strokeWeight(3);
+        noFill();
+        rect(offset + i * gridSize, offset + j * gridSize, gridSize, gridSize);
+      }
       j++;
     }
     i++;
@@ -75,7 +91,7 @@ void drawGrid(){
   }
   
   
-  strokeWeight(5);
+  strokeWeight(6);
   noFill();
   rect(offset,offset,9*gridSize,9*gridSize);
 }
@@ -87,8 +103,27 @@ void mousePressed(){
     if (mouseX > 150 && mouseX < 250 && mouseY > 100 && mouseY < 150) {
       screen = "play";  
     }
+    
     else if (mouseX > 150 && mouseX < 250 && mouseY > 240 && mouseY < 290) {
       exit();
+    }
+  }
+  else if(screen.equals("play")){
+    int gridSize = 40;
+    int offset = 20;
+    
+    if (mouseX > offset && mouseX < offset + 9 * gridSize && mouseY > offset && mouseY < offset + 9*gridSize){
+       selectedRow = (mouseX - offset) / gridSize;
+       selectedCol = (mouseY - offset) / gridSize;
+    }
+  }
+  
+}
+
+void keyPressed(){
+  if (screen.equals("play") && selectedRow != -1 && selectedCol != -1){
+    if(key>='1' && key <= '9'){
+      grid[selectedRow][selectedCol] = key-'0';
     }
   }
 }
