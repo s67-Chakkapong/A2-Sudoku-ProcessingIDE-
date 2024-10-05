@@ -123,7 +123,65 @@ void mousePressed(){
 void keyPressed(){
   if (screen.equals("play") && selectedRow != -1 && selectedCol != -1){
     if(key>='1' && key <= '9'){
-      grid[selectedRow][selectedCol] = key-'0';
+      int num = key-'0';
+      if (isValidMove(selectedRow, selectedCol,num)){
+        grid[selectedRow][selectedCol] = num;
+      }
+      else{
+        println("Invalid move");
+      }
     }
+    
   }
 }
+
+
+boolean checkRow(int row, int num){
+  int i = 0;
+  while (i < 9){
+    if (grid[row][i] == num){
+    return false;
+    }
+    i++;
+  }
+  return true;
+}
+
+
+boolean checkCol(int col, int num){
+  int i = 0;
+  while(i<9){
+    if(grid[i][col] == num){
+      return false;
+    }
+    i++;
+  }
+  return true;
+}
+
+
+boolean checkSubGrid(int row, int col, int num){
+  int startRow = (row/3)*3;
+  int startCol = (col/3)*3;
+  
+  int i = 0 ;
+  
+  
+  while (i<3){
+    int j =0 ;
+    while(j<3){
+      if(grid[startRow + i][startCol +j] == num){
+        return false;
+      }
+      j++;
+    }
+    i++;
+  }
+  return true;
+}
+
+
+boolean isValidMove(int row, int col , int num){
+  return checkRow(row,num) && checkCol(col,num) && checkSubGrid(row,col,num);
+}
+
