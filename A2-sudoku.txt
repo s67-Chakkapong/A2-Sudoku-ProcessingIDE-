@@ -1,3 +1,6 @@
+String screen = "menu";
+
+
 void setup(){
   size(400,400);
   
@@ -6,7 +9,12 @@ void setup(){
 
 void draw(){
   background(255);
-  drawMenu();
+  if(screen.equals("menu")){
+    drawMenu();
+  }
+  else if(screen.equals("play")){
+    drawGrid();
+  }
   
 }
 
@@ -30,4 +38,57 @@ void drawMenu(){
   text("Exit", 200, 265);
   
   
+}
+
+
+void drawGrid(){
+  background(255);
+  int gridSize=40;
+  int offset=20;
+  
+  int i = 0;
+  int j;
+  
+  
+  while (i < 9){
+    j = 0;
+    while(j<9){
+      stroke(0);
+      strokeWeight(1);
+      fill(255);
+      rect(offset+i*gridSize,offset+j*gridSize,gridSize,gridSize);
+      j++;
+    }
+    i++;
+  }
+  
+  
+  i = 0;
+  strokeWeight(3);
+  while (i<=9){
+    if (i%3==0){
+      line(offset + i * gridSize, offset, offset +i * gridSize, offset + 9 * gridSize);  
+      line(offset, offset + i * gridSize, offset + 9 * gridSize, offset + i* gridSize);
+      
+    }
+    i++;
+  }
+  
+  
+  strokeWeight(5);
+  noFill();
+  rect(offset,offset,9*gridSize,9*gridSize);
+}
+
+
+void mousePressed(){
+  if (screen.equals("menu")) {
+    
+    if (mouseX > 150 && mouseX < 250 && mouseY > 100 && mouseY < 150) {
+      screen = "play";  
+    }
+    else if (mouseX > 150 && mouseX < 250 && mouseY > 240 && mouseY < 290) {
+      exit();
+    }
+  }
 }
