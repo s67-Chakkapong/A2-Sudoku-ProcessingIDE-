@@ -2,7 +2,7 @@ String screen = "menu";
 int selectedRow = -1;
 int selectedCol = -1;
 int[][] grid = new int[9][9];
-
+boolean gameWon= false;
 
 
 void setup(){
@@ -10,7 +10,7 @@ void setup(){
   textAlign(CENTER,CENTER);
   textSize(20);
   generateFullGrid();
-  removeNumbers(40);
+  removeNumbers(1);
 }
 
 
@@ -21,6 +21,12 @@ void draw(){
   }
   else if(screen.equals("play")){
     drawGrid();
+    if (gameWon){
+      background(0);
+      fill(255,255,0);
+      textSize(30);
+      text("YOU WIN!" , width/2,height/2);
+    }
   }
 }
 
@@ -126,6 +132,9 @@ void keyPressed(){
       int num = key-'0';
       if (isValidMove(selectedRow, selectedCol,num)){
         grid[selectedRow][selectedCol] = num;
+        if(checkWin()){
+          gameWon=true;
+        }
       }
       else{
         println("Invalid move");
@@ -241,4 +250,20 @@ boolean checkSubGrid(int row, int col, int num){
 
 boolean isValidMove(int row, int col , int num){
   return checkRow(row,num) && checkCol(col,num) && checkSubGrid(row,col,num);
+}
+
+
+boolean checkWin(){
+  int row = 0;
+  while(row<9){
+    int col = 0;
+    while(col<9){
+      if(grid[row][col]==0){
+        return false;
+      }
+      col++;
+    }
+    row++;
+  }
+  return true;  
 }
