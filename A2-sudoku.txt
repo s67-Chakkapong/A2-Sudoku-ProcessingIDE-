@@ -3,10 +3,13 @@ int selectedRow = -1;
 int selectedCol = -1;
 int[][] grid = new int[9][9];
 
+
+
 void setup(){
   size(400,400);
   textAlign(CENTER,CENTER);
   textSize(20);
+  generateFullGrid();
 }
 
 
@@ -18,12 +21,10 @@ void draw(){
   else if(screen.equals("play")){
     drawGrid();
   }
-  
 }
 
 
 void drawMenu(){
-  
   fill(100, 200, 100);
   rect(150, 100, 100, 50);
   fill(0);
@@ -39,13 +40,10 @@ void drawMenu(){
   rect(150, 240, 100, 50);
   fill(0);
   text("Exit", 200, 265);
-  
-  
 }
 
 
 void drawGrid(){
-  background(255);
   int gridSize=40;
   int offset=20;
   
@@ -68,7 +66,7 @@ void drawGrid(){
         
       }
       if (i == selectedRow && j == selectedCol) {
-        stroke(255, 0, 0);
+        stroke(0, 255, 0);
         strokeWeight(3);
         noFill();
         rect(offset + i * gridSize, offset + j * gridSize, gridSize, gridSize);
@@ -131,9 +129,60 @@ void keyPressed(){
         println("Invalid move");
       }
     }
-    
   }
 }
+
+void generateFullGrid(){
+  fillGrid(0,0);
+}
+
+
+boolean fillGrid(int row, int col){
+  if (row == 9 ){
+    return true;
+  }
+  if (col == 9 ){
+    return fillGrid(row+1,0);
+  }
+  
+  
+  int[] nums = {1,2,3,4,5,6,7,8,9};
+  
+  shuffle(nums);
+  
+  int index = 0 ;
+  while (index < nums.length){
+    int num = nums[index];
+    if (isValidMove(row,col,num)){
+      grid[row][col] = num;
+      if (fillGrid(row,col+1)){
+        return true;
+      }
+      grid[row][col]=0;
+    }
+    index++;
+  } 
+  return false;
+}
+
+
+void shuffle(int[] arr) {
+  
+  int i = arr.length-1;
+  while ( i > 0 ){
+    int j = (int) random(i+1);
+    int temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+    i--;
+  }
+}
+
+
+
+
+
+
 
 
 boolean checkRow(int row, int num){
@@ -160,6 +209,7 @@ boolean checkCol(int col, int num){
 }
 
 
+
 boolean checkSubGrid(int row, int col, int num){
   int startRow = (row/3)*3;
   int startCol = (col/3)*3;
@@ -184,4 +234,3 @@ boolean checkSubGrid(int row, int col, int num){
 boolean isValidMove(int row, int col , int num){
   return checkRow(row,num) && checkCol(col,num) && checkSubGrid(row,col,num);
 }
-
