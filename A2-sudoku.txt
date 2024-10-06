@@ -10,6 +10,7 @@ void setup(){
   textAlign(CENTER,CENTER);
   textSize(20);
   generateFullGrid();
+  removeNumbers(40);
 }
 
 
@@ -118,6 +119,7 @@ void mousePressed(){
   
 }
 
+
 void keyPressed(){
   if (screen.equals("play") && selectedRow != -1 && selectedCol != -1){
     if(key>='1' && key <= '9'){
@@ -131,6 +133,7 @@ void keyPressed(){
     }
   }
 }
+
 
 void generateFullGrid(){
   fillGrid(0,0);
@@ -179,10 +182,16 @@ void shuffle(int[] arr) {
 }
 
 
-
-
-
-
+void removeNumbers(int count){
+  while (count>0){
+    int row = (int) random(9);
+    int col = (int) random(9);
+    if (grid[row][col] != 0 ){
+      grid[row][col] = 0;
+      count--;
+    }
+  }
+}
 
 
 boolean checkRow(int row, int num){
@@ -207,7 +216,6 @@ boolean checkCol(int col, int num){
   }
   return true;
 }
-
 
 
 boolean checkSubGrid(int row, int col, int num){
