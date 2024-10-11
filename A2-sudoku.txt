@@ -10,7 +10,7 @@ void setup(){
   textAlign(CENTER,CENTER);
   textSize(20);
   generateFullGrid();
-  removeNumbers(1);
+  removeNumbers(25);
 }
 
 
@@ -72,7 +72,7 @@ void drawGrid(){
         text(grid[i][j],offset + i * gridSize + gridSize /2 , offset + j * gridSize + gridSize/2);
         
       }
-      if (i == selectedRow && j == selectedCol) {
+      if (i == selectedRow && j == selectedCol ) {
         stroke(0, 255, 0);
         strokeWeight(3);
         noFill();
@@ -288,29 +288,46 @@ String[] intArrayToStringArray(int[] arr){
 
 
 void saveGame(){
-  String[] lines = new String[9];
-  int i = 0 ;
-  while (i < 9){
+  selectOutput("","savetoFile");
+}
+
+
+void savetoFile(File selection){
+  if (selection == null){
+    println("No file was selected");
+    return;
+  }
+  
+  String[]  lines = new String[9];
+  int i = 0;
+  while (i<9){
     lines[i] = join(intArrayToStringArray(grid[i]),",");
     i++;
   }
-  saveStrings("C:/Users/tongy/Documents/Save_Sudoku.txt", lines);
-  println("Game Saved");
+  saveStrings(selection.getAbsolutePath(), lines);
+  println("Game Saved to "+ selection.getAbsolutePath());
 }
 
 
 void loadGame() {
-  String[] lines = loadStrings("C:/Users/tongy/Documents/Save_Sudoku.txt");
-  int i = 0 ;
-  while (i<9){
-    int j = 0 ;
+  selectInput("Select a file to load:","loadFromFile");
+}
+
+
+void loadFromFile(File selection){
+  if (selection == null) {
+    println("No file was selectedl");
+    return ; 
+  }
+  String[] lines = loadStrings(selection.getAbsolutePath());
+  int i  = 0 ;
+  while ( i < 9){
     String[] nums = split(lines[i],",");
+    int j = 0 ;
     while(j<9){
       grid[i][j] = int(nums[j]);
       j++;
     }
     i++;
   }
-  println("Game Loaded");
 }
-
